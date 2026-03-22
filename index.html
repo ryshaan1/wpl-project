@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ryshaan's EV Charger Allocation System</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f2f6fc;
+}
+.container{
+    width:50%;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+h2{
+    text-align:center;
+    color:#1565c0;
+}
+input,select{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:15px;
+}
+button{
+    padding:10px;
+    width:32%;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+button:hover{
+    background:#1b5e20;
+}
+</style>
+
+<script>
+function validateForm(){
+    let name=document.forms["evForm"]["name"].value;
+    let email=document.forms["evForm"]["email"].value;
+    let vehicle=document.forms["evForm"]["vehicle"].value;
+
+    if(name=="" || email=="" || vehicle==""){
+        alert("All fields must be filled!");
+        return false;
+    }
+
+    let emailPattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if(!email.match(emailPattern)){
+        alert("Enter valid email!");
+        return false;
+    }
+    return true;
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+<h2>⚡ Ryshaan's EV Charger Allocation System</h2>
+
+<form name="evForm" onsubmit="return validateForm();">
+
+<label>Name:</label>
+<input type="text" name="name">
+
+<label>Email:</label>
+<input type="text" name="email">
+
+<label>Vehicle Number:</label>
+<input type="text" name="vehicle">
+
+<label>Vehicle Type:</label>
+<select name="type">
+<option value="2-Wheeler">2-Wheeler</option>
+<option value="4-Wheeler">4-Wheeler</option>
+</select>
+
+<label>Charging Slot:</label>
+<select name="slot">
+<option value="Morning">Morning</option>
+<option value="Afternoon">Afternoon</option>
+<option value="Evening">Evening</option>
+</select>
+
+<br>
+
+<button type="submit" formaction="post_registration.php" formmethod="post">Submit via POST</button>
+<button type="submit" formaction="get_registration.php" formmethod="get">Submit via GET</button>
+<button type="submit" formaction="request_registration.php" formmethod="post">Submit via REQUEST</button>
+
+</form>
+</div>
+
+</body>
+</html>
