@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Slot — VoltGrid</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#fff;color:#171a20;min-height:100vh}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:4px;text-decoration:none;color:#171a20;text-transform:uppercase}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:#171a20;text-decoration:none;font-size:13px;padding:7px 13px;border-radius:4px;transition:background .2s}
+.nav-links a:hover,.nav-links a.active{background:rgba(0,0,0,.06)}
+
+.layout{min-height:100vh;padding-top:52px;display:grid;grid-template-columns:1fr 390px}
+
+/* MAIN */
+.main{padding:52px 60px;border-right:1px solid rgba(0,0,0,.07)}
+.pg-over{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,.28);margin-bottom:12px;display:block}
+.pg-title{font-size:38px;font-weight:600;letter-spacing:-.8px;margin-bottom:8px}
+.pg-sub{font-size:14px;color:rgba(0,0,0,.4);margin-bottom:44px}
+
+/* PROGRESS TABS */
+.tabs{display:flex;border-bottom:1px solid rgba(0,0,0,.08);margin-bottom:40px}
+.tab{padding:12px 0;margin-right:30px;font-size:13px;font-weight:500;color:rgba(0,0,0,.3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap}
+.tab.active{color:#171a20;border-bottom-color:#171a20}
+.tab.done{color:rgba(0,0,0,.45)}
+
+/* STEPS */
+.step{display:none}
+.step.active{display:block;animation:fi .3s both}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.sec-lbl{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,.28);margin-bottom:18px;display:block}
+
+/* STATION LIST */
+.st-list{border:1px solid rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin-bottom:32px}
+.st-row{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid rgba(0,0,0,.06);background:#fff;cursor:pointer;transition:background .15s}
+.st-row:last-child{border-bottom:none}
+.st-row:hover:not(.dis){background:#f9f9f9}
+.st-row.sel{background:#f4f4f4}
+.st-row.dis{opacity:.4;cursor:not-allowed}
+.st-row input[type=radio]{accent-color:#171a20;flex-shrink:0}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dg{background:#10B981}.dy{background:#F59E0B}.dr{background:#6b7280}
+.rn{font-size:15px;font-weight:600;flex:1}
+.rm{font-size:12px;color:rgba(0,0,0,.4);margin-top:2px}
+.rp{font-size:14px;font-weight:600;margin-left:auto;white-space:nowrap}
+.off-txt{font-size:11px;color:rgba(0,0,0,.3);margin-left:auto}
+
+/* UNDERLINE FIELDS */
+.tf{display:flex;flex-direction:column;margin-bottom:22px;border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:8px;transition:border-color .2s}
+.tf:focus-within{border-bottom-color:#171a20}
+.tf label{font-size:10px;font-weight:600;letter-spacing:.8px;color:rgba(0,0,0,.36);margin-bottom:5px;text-transform:uppercase}
+.tf input,.tf select,.tf textarea{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;cursor:pointer}
+.tf input::placeholder{color:rgba(0,0,0,.22)}
+.tf textarea::placeholder{color:rgba(0,0,0,.22)}
+.tf select option{background:#fff}
+.tf textarea{resize:none;min-height:60px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+.full{grid-column:1/-1}
+
+/* SLOTS */
+.slots-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:32px}
+.slot{padding:13px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);border-radius:5px;cursor:pointer;transition:all .15s;background:#fff}
+.slot:hover:not(.tk){border-color:rgba(0,0,0,.3)}
+.slot.sel{background:#171a20;color:#fff;border-color:#171a20}
+.slot.tk{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.sl-t{font-size:14px;font-weight:600}
+.sl-a{font-size:11px;color:rgba(0,0,0,.38);margin-top:3px}
+.slot.sel .sl-a{color:rgba(255,255,255,.5)}
+
+/* CONFIRM BOX */
+.conf-box{border:1px solid rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin-bottom:24px}
+.cr{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(0,0,0,.06);font-size:14px}
+.cr:last-child{border-bottom:none}
+.cl{color:rgba(0,0,0,.38)}
+.cv{font-weight:600}
+
+/* BTN ROW */
+.btn-row{display:flex;gap:10px;margin-top:28px}
+.btn-p{background:#171a20;color:#fff;border:none;padding:14px 36px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-p:hover{background:#000}
+.btn-s{background:rgba(0,0,0,.07);color:#171a20;border:none;padding:14px 24px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-s:hover{background:rgba(0,0,0,.11)}
+
+/* SUCCESS */
+.suc{display:none;text-align:center;padding:44px 0;flex-direction:column;align-items:center;gap:18px}
+.suc-chk{width:68px;height:68px;background:#171a20;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;margin:0 auto;animation:pop .45s cubic-bezier(.175,.885,.32,1.275) both}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.suc h2{font-size:30px;font-weight:600;letter-spacing:-.5px}
+.suc p{font-size:14px;color:rgba(0,0,0,.42);max-width:360px;line-height:1.7}
+.ref{font-size:24px;font-weight:700;letter-spacing:3px;background:#f4f4f4;padding:14px 36px;border-radius:5px;font-family:monospace;color:#171a20}
+.suc-btns{display:flex;gap:10px}
+.suc-btns a{padding:13px 24px;border-radius:5px;text-decoration:none;font-size:14px;font-weight:500}
+.suc-a{background:rgba(0,0,0,.07);color:#171a20}
+.suc-b{background:#171a20;color:#fff}
+
+/* SUMMARY */
+.summary{background:#f4f4f4;padding:52px 36px;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto}
+.sum-title{font-size:20px;font-weight:600;margin-bottom:28px}
+.sr{display:flex;justify-content:space-between;font-size:14px;margin-bottom:12px}
+.sr span:first-child{color:rgba(0,0,0,.4)}
+.sr span:last-child{font-weight:600;text-align:right;max-width:55%}
+.sdiv{height:1px;background:rgba(0,0,0,.08);margin:18px 0}
+.stotal{display:flex;justify-content:space-between;font-size:18px;font-weight:700}
+.spol{font-size:12px;color:rgba(0,0,0,.35);line-height:1.7;margin-top:20px;padding-top:18px;border-top:1px solid rgba(0,0,0,.07)}
+
+footer{background:#171a20;padding:18px 48px}
+.foot-bottom{font-size:12px;color:rgba(255,255,255,.22);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .summary{display:none}
+  .main{padding:28px 20px}
+  nav{padding:0 16px}
+  .fg{grid-template-columns:1fr}
+  .slots-grid{grid-template-columns:repeat(3,1fr)}
+  footer{padding:16px 20px}
+  .foot-bottom{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">VoltGrid</a>
+  <div class="nav-links">
+    <a href="catalogue.html">Chargers</a>
+    <a href="booking.html" class="active">Book Slot</a>
+    <a href="feedback.html">Support</a>
+    <a href="index.html#signin">Sign In</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <div class="main">
+    <span class="pg-over">Charging Reservation</span>
+    <div class="pg-title">Book a Slot</div>
+    <p class="pg-sub">Select a station, pick your time, and confirm.</p>
+
+    <div class="tabs">
+      <div class="tab active" id="t1">Station</div>
+      <div class="tab" id="t2">Schedule</div>
+      <div class="tab" id="t3">Confirm</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step active" id="s1">
+      <span class="sec-lbl">Select a station</span>
+      <div class="st-list">
+        <label class="st-row dis">
+          <input type="radio" name="st" disabled>
+          <div class="dot dr"></div>
+          <div><div class="rn">Malabar Hill</div><div class="rm">VG-01 · Type 2 · 11 kW · Offline</div></div>
+          <span class="off-txt">Unavailable</span>
+        </label>
+        <label class="st-row sel" onclick="pick(this,'Vidyavihar','VG-02','CCS2 · 60 kW','₹15/kWh',15)">
+          <input type="radio" name="st" value="VG-02" checked>
+          <div class="dot dy"></div>
+          <div><div class="rn">Vidyavihar</div><div class="rm">VG-02 · CCS2 · 60 kW · Queue: ~18 min</div></div>
+          <span class="rp">₹15/kWh</span>
+        </label>
+        <label class="st-row" onclick="pick(this,'Chembur','VG-03','CCS2 · 150 kW','₹18/kWh',18)">
+          <input type="radio" name="st" value="VG-03">
+          <div class="dot dg"></div>
+          <div><div class="rn">Chembur</div><div class="rm">VG-03 · CCS2 · 150 kW · 4 slots free</div></div>
+          <span class="rp">₹18/kWh</span>
+        </label>
+      </div>
+      <div class="btn-row"><div></div><button class="btn-p" onclick="go(1)">Continue</button></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="s2">
+      <div class="fg">
+        <div class="tf"><label>Date</label><input type="date" id="di" required onchange="updDate()"></div>
+        <div class="tf"><label>Duration</label>
+          <select onchange="setDur(this.value)">
+            <option value="30">30 minutes</option>
+            <option value="60" selected>1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+          </select>
+        </div>
+        <div class="tf full"><label>Vehicle Registration</label><input type="text" name="vrn" placeholder="MH 01 AB 1234" required></div>
+      </div>
+      <span class="sec-lbl">Available time slots</span>
+      <div class="slots-grid">
+        <div class="slot tk"><div class="sl-t">08:00</div><div class="sl-a">Full</div></div>
+        <div class="slot tk"><div class="sl-t">09:00</div><div class="sl-a">Full</div></div>
+        <div class="slot" onclick="ps(this,'10:00')"><div class="sl-t">10:00</div><div class="sl-a">2 left</div></div>
+        <div class="slot" onclick="ps(this,'11:00')"><div class="sl-t">11:00</div><div class="sl-a">4 left</div></div>
+        <div class="slot" onclick="ps(this,'12:00')"><div class="sl-t">12:00</div><div class="sl-a">3 left</div></div>
+        <div class="slot tk"><div class="sl-t">13:00</div><div class="sl-a">Full</div></div>
+        <div class="slot" onclick="ps(this,'14:00')"><div class="sl-t">14:00</div><div class="sl-a">5 left</div></div>
+        <div class="slot" onclick="ps(this,'15:00')"><div class="sl-t">15:00</div><div class="sl-a">6 left</div></div>
+        <div class="slot" onclick="ps(this,'16:00')"><div class="sl-t">16:00</div><div class="sl-a">4 left</div></div>
+        <div class="slot tk"><div class="sl-t">17:00</div><div class="sl-a">Full</div></div>
+        <div class="slot" onclick="ps(this,'18:00')"><div class="sl-t">18:00</div><div class="sl-a">2 left</div></div>
+        <div class="slot" onclick="ps(this,'19:00')"><div class="sl-t">19:00</div><div class="sl-a">3 left</div></div>
+      </div>
+      <div class="btn-row"><button class="btn-s" onclick="go(-1,2)">Back</button><button class="btn-p" onclick="go(2)">Continue</button></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="s3">
+      <span class="sec-lbl">Review your booking</span>
+      <div class="conf-box">
+        <div class="cr"><span class="cl">Station</span><span class="cv" id="cv1">Vidyavihar</span></div>
+        <div class="cr"><span class="cl">Date</span><span class="cv" id="cv2">—</span></div>
+        <div class="cr"><span class="cl">Time Slot</span><span class="cv" id="cv3">—</span></div>
+        <div class="cr"><span class="cl">Duration</span><span class="cv" id="cv4">1 hour</span></div>
+        <div class="cr"><span class="cl">Estimated Total</span><span class="cv" id="cv5">—</span></div>
+      </div>
+      <div class="tf full"><label>Special Instructions (Optional)</label><textarea name="notes" placeholder="Any notes for the station attendant..."></textarea></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(0,0,0,.45);line-height:1.65;margin:16px 0 4px">
+        <input type="checkbox" id="ag" style="accent-color:#171a20;margin-top:3px;flex-shrink:0">
+        <label for="ag">I agree to the cancellation policy. No-shows will be charged 50% of the session fee. Free cancellation up to 30 minutes before the slot.</label>
+      </div>
+      <div class="btn-row"><button class="btn-s" onclick="go(-1,3)">Back</button><button class="btn-p" onclick="conf()">Confirm Reservation</button></div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="suc" id="suc">
+      <div class="suc-chk">✓</div>
+      <h2>Reservation Confirmed</h2>
+      <p>Your slot is booked. Present your reference at the station or use the QR code sent to your email.</p>
+      <div class="ref" id="ref">VG-00000</div>
+      <div class="suc-btns">
+        <a href="catalogue.html" class="suc-a">View Stations</a>
+        <a href="booking.html" class="suc-b">New Booking</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <aside class="summary">
+    <div class="sum-title">Order Summary</div>
+    <div class="sr"><span>Station</span><span id="ss1">Vidyavihar</span></div>
+    <div class="sr"><span>Station ID</span><span id="ss2">VG-02</span></div>
+    <div class="sr"><span>Connector</span><span id="ss3">CCS2 · 60 kW</span></div>
+    <div class="sr"><span>Rate</span><span id="ss4">₹15/kWh</span></div>
+    <div class="sdiv"></div>
+    <div class="sr"><span>Date</span><span id="ss5">—</span></div>
+    <div class="sr"><span>Time</span><span id="ss6">—</span></div>
+    <div class="sr"><span>Duration</span><span id="ss7">1 hour</span></div>
+    <div class="sdiv"></div>
+    <div class="sr"><span>Session fee</span><span id="sc1">₹0</span></div>
+    <div class="sr"><span>Platform fee</span><span>₹5</span></div>
+    <div class="sr"><span>GST (18%)</span><span id="sc2">₹0</span></div>
+    <div class="sdiv"></div>
+    <div class="stotal"><span>Total</span><span id="sc3">₹5</span></div>
+    <div class="spol">Free cancellation up to 30 min before your slot. No-shows charged 50% of session fee. Actual cost depends on kWh consumed.</div>
+  </aside>
+</div>
+
+<footer>
+  <div class="foot-bottom">
+    <p>VoltGrid © 2025–26 · K.J. Somaiya School of Engineering · WPL Mini Project</p>
+    <p>Parth Sharma — 16010124138 &nbsp;|&nbsp; Ryshaan Shah — 16010124134</p>
+  </div>
+</footer>
+
+<script>
+let st={name:'Vidyavihar',id:'VG-02',conn:'CCS2 · 60 kW',rate:'₹15/kWh',rn:15};
+let slotT=null,dur=60;
+
+document.getElementById('di').valueAsDate=new Date();
+updDate();
+
+function pick(el,name,id,conn,rate,rn){
+  document.querySelectorAll('.st-row:not(.dis)').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+  st={name,id,conn,rate,rn};
+  setSum();
+}
+
+function ps(el,t){
+  if(el.classList.contains('tk'))return;
+  document.querySelectorAll('.slot').forEach(s=>s.classList.remove('sel'));
+  el.classList.add('sel');
+  slotT=t;
+  document.getElementById('ss6').textContent=t;
+  document.getElementById('cv3').textContent=t;
+}
+
+function setDur(v){
+  dur=parseInt(v);
+  const l={30:'30 minutes',60:'1 hour',90:'1.5 hours',120:'2 hours'}[v];
+  document.getElementById('ss7').textContent=l;
+  document.getElementById('cv4').textContent=l;
+  calc();
+}
+
+function updDate(){
+  const v=document.getElementById('di').value;
+  if(!v)return;
+  const f=new Date(v).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('ss5').textContent=f;
+  document.getElementById('cv2').textContent=f;
+}
+
+function setSum(){
+  document.getElementById('ss1').textContent=st.name;
+  document.getElementById('ss2').textContent=st.id;
+  document.getElementById('ss3').textContent=st.conn;
+  document.getElementById('ss4').textContent=st.rate;
+  document.getElementById('cv1').textContent=st.name;
+  calc();
+}
+
+function calc(){
+  const sess=Math.round((dur/60)*20*st.rn);
+  const gst=Math.round(sess*.18);
+  const tot=sess+gst+5;
+  document.getElementById('sc1').textContent='₹'+sess;
+  document.getElementById('sc2').textContent='₹'+gst;
+  document.getElementById('sc3').textContent='₹'+tot;
+  document.getElementById('cv5').textContent='₹'+tot;
+}
+
+function getCur(){for(let i=1;i<=3;i++)if(document.getElementById('s'+i).classList.contains('active'))return i;}
+
+function go(dir,step){
+  if(dir===2&&!slotT){alert('Please select a time slot.');return;}
+  const cur=step||getCur(),nxt=dir===1?getCur()+1:step-1;
+  document.getElementById('s'+cur).classList.remove('active');
+  document.getElementById('t'+cur).classList.remove('active');
+  if(dir===1)document.getElementById('t'+cur).classList.add('done');
+  else document.getElementById('t'+nxt).classList.remove('done');
+  document.getElementById('s'+nxt).classList.add('active');
+  document.getElementById('t'+nxt).classList.add('active');
+}
+
+function conf(){
+  if(!document.getElementById('ag').checked){alert('Please agree to the cancellation policy.');return;}
+  document.getElementById('s3').classList.remove('active');
+  document.getElementById('ref').textContent='VG-'+Math.floor(10000+Math.random()*90000);
+  const s=document.getElementById('suc');
+  s.style.display='flex';
+}
+
+calc();
+</script>
+</body>
+</html>

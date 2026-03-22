@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — VoltGrid</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#fff;color:#171a20}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:4px;text-decoration:none;color:#171a20;text-transform:uppercase}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:#171a20;text-decoration:none;font-size:13px;padding:7px 13px;border-radius:4px;transition:background .2s}
+.nav-links a:hover,.nav-links a.active{background:rgba(0,0,0,.06)}
+
+/* HERO */
+.hero{margin-top:52px;background:#171a20;color:#fff;text-align:center;padding:60px 20px 48px;position:relative;overflow:hidden}
+.hero::after{content:'?';position:absolute;font-size:300px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.03;pointer-events:none}
+.h-over{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:14px;position:relative;z-index:1}
+.h-title{font-size:44px;font-weight:600;letter-spacing:-.7px;margin-bottom:12px;position:relative;z-index:1}
+.h-sub{font-size:15px;color:rgba(255,255,255,.4);max-width:400px;margin:0 auto;line-height:1.65;position:relative;z-index:1}
+
+/* TYPE TABS */
+.type-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(0,0,0,.07)}
+.tt{padding:24px 28px;cursor:pointer;transition:background .15s;border-right:1px solid rgba(0,0,0,.07)}
+.tt:last-child{border-right:none}
+.tt:hover{background:#f9f9f9}
+.tt.active{background:#f4f4f4}
+.tt-icon{font-size:20px;margin-bottom:8px}
+.tt-title{font-size:15px;font-weight:600;margin-bottom:3px}
+.tt-desc{font-size:13px;color:rgba(0,0,0,.38)}
+.tt-bar{height:2px;background:#171a20;margin-top:14px;display:none}
+.tt.active .tt-bar{display:block}
+
+/* MAIN */
+.main-wrap{display:grid;grid-template-columns:1fr 340px}
+
+/* FORM */
+.form-panel{padding:52px 60px;border-right:1px solid rgba(0,0,0,.07)}
+
+/* Tab nav inside form */
+.tab-nav{display:flex;border-bottom:1px solid rgba(0,0,0,.08);margin-bottom:36px}
+.tn{padding:11px 0;margin-right:28px;font-size:14px;font-weight:500;color:rgba(0,0,0,.3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+.tn.active{color:#171a20;border-bottom-color:#171a20}
+
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+
+/* Underline inputs */
+.tf{display:flex;flex-direction:column;margin-bottom:22px;border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:8px;transition:border-color .2s}
+.tf:focus-within{border-bottom-color:#171a20}
+.tf label{font-size:10px;font-weight:600;letter-spacing:.8px;color:rgba(0,0,0,.36);margin-bottom:5px;text-transform:uppercase}
+.tf input,.tf select,.tf textarea{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;cursor:pointer}
+.tf input::placeholder,.tf textarea::placeholder{color:rgba(0,0,0,.22)}
+.tf textarea{resize:none;min-height:80px}
+.tf select option{background:#fff}
+
+/* Stars */
+.stars{display:flex;gap:6px;padding:4px 0 6px}
+.star{font-size:26px;cursor:pointer;opacity:.18;transition:opacity .15s,transform .15s}
+.star:hover,.star.on{opacity:1;transform:scale(1.08)}
+
+/* Upload */
+.upload{border:1px dashed rgba(0,0,0,.16);border-radius:5px;padding:24px;text-align:center;cursor:pointer;color:rgba(0,0,0,.35);font-size:14px;transition:all .2s}
+.upload:hover{border-color:rgba(0,0,0,.3);background:#f9f9f9}
+.upload-icon{font-size:18px;margin-bottom:5px}
+
+.btn-send{background:#171a20;color:#fff;border:none;padding:14px 44px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s;margin-top:8px}
+.btn-send:hover{background:#000}
+
+/* CONTACT */
+.contact-panel{background:#f4f4f4;padding:52px 36px}
+.cp-title{font-size:20px;font-weight:600;margin-bottom:28px}
+.ci{display:flex;gap:12px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.07);align-items:flex-start}
+.ci:last-of-type{border-bottom:none}
+.ci-icon{font-size:17px;margin-top:1px;flex-shrink:0}
+.ci-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(0,0,0,.28);margin-bottom:3px}
+.ci-val{font-size:14px;font-weight:600}
+.ci-val a{color:#171a20;text-decoration:none}
+.status-block{background:#fff;border-radius:5px;padding:20px;margin-top:20px}
+.sb-title{font-size:14px;font-weight:600;margin-bottom:14px}
+.sb-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:9px}
+.sb-row span:first-child{color:rgba(0,0,0,.4)}
+.dg{color:#10B981;font-weight:600}
+.dy{color:#F59E0B;font-weight:600}
+.dr{color:#6b7280;font-weight:600}
+
+/* FAQ */
+.faq-wrap{padding:52px 60px;border-top:1px solid rgba(0,0,0,.07)}
+.faq-title{font-size:30px;font-weight:600;letter-spacing:-.5px;margin-bottom:28px}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,.07);border:1px solid rgba(0,0,0,.07);border-radius:6px;overflow:hidden}
+.faq-item{background:#fff;padding:22px;cursor:pointer;transition:background .15s}
+.faq-item:hover{background:#f9f9f9}
+.faq-q{font-size:14px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.faq-tog{font-size:18px;color:rgba(0,0,0,.28);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-tog{transform:rotate(45deg);color:#171a20}
+.faq-a{font-size:13px;color:rgba(0,0,0,.45);margin-top:10px;line-height:1.7;display:none}
+.faq-item.open .faq-a{display:block}
+
+/* TOAST */
+.toast{display:none;position:fixed;bottom:24px;right:24px;z-index:999;background:#171a20;color:#fff;padding:13px 22px;border-radius:5px;font-size:14px;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,.18);animation:ti .3s both}
+@keyframes ti{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+footer{background:#171a20;padding:18px 48px}
+.foot-bottom{font-size:12px;color:rgba(255,255,255,.22);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+@media(max-width:900px){
+  nav{padding:0 16px}
+  .type-tabs{grid-template-columns:1fr}
+  .tt{border-right:none;border-bottom:1px solid rgba(0,0,0,.07)}
+  .main-wrap{grid-template-columns:1fr}
+  .contact-panel{display:none}
+  .form-panel{padding:32px 20px}
+  .fg2{grid-template-columns:1fr}
+  .faq-wrap{padding:32px 20px}
+  .faq-grid{grid-template-columns:1fr}
+  footer{padding:16px 20px}
+  .foot-bottom{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">VoltGrid</a>
+  <div class="nav-links">
+    <a href="catalogue.html">Chargers</a>
+    <a href="booking.html">Book Slot</a>
+    <a href="feedback.html" class="active">Support</a>
+    <a href="index.html#signin">Sign In</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <span class="h-over">Help Center</span>
+  <div class="h-title">Support</div>
+  <div class="h-sub">We usually reply within 24 hours. For urgent issues call the helpline directly.</div>
+</div>
+
+<div class="type-tabs">
+  <div class="tt active" onclick="setType('feedback',this)">
+    <div class="tt-icon">★</div>
+    <div class="tt-title">Feedback</div>
+    <div class="tt-desc">Rate your experience</div>
+    <div class="tt-bar"></div>
+  </div>
+  <div class="tt" onclick="setType('issue',this)">
+    <div class="tt-icon">⚙</div>
+    <div class="tt-title">Report Issue</div>
+    <div class="tt-desc">Something not working?</div>
+    <div class="tt-bar"></div>
+  </div>
+  <div class="tt" onclick="setType('contact',this)">
+    <div class="tt-icon">✉</div>
+    <div class="tt-title">Contact</div>
+    <div class="tt-desc">General enquiries</div>
+    <div class="tt-bar"></div>
+  </div>
+</div>
+
+<div class="main-wrap">
+  <div class="form-panel">
+    <div class="tab-nav">
+      <div class="tn active" id="tn1" onclick="sw('feedback')">Feedback</div>
+      <div class="tn" id="tn2" onclick="sw('issue')">Report Issue</div>
+      <div class="tn" id="tn3" onclick="sw('contact')">Contact</div>
+    </div>
+
+    <form action="request_registration.php" method="POST" onsubmit="send(event)">
+      <div class="fg2">
+        <div class="tf"><label>Full Name</label><input type="text" placeholder="Your name" required></div>
+        <div class="tf"><label>Email Address</label><input type="email" placeholder="you@example.com" required></div>
+      </div>
+
+      <!-- FEEDBACK -->
+      <div id="fb-sec">
+        <div class="tf">
+          <label>Station (Optional)</label>
+          <select><option value="">Select station</option><option>VG-01 · Malabar Hill</option><option>VG-02 · Vidyavihar</option><option>VG-03 · Chembur</option></select>
+        </div>
+        <div class="tf">
+          <label>Overall Rating</label>
+          <div class="stars" id="stars">
+            <span class="star" onclick="setStar(1)">★</span>
+            <span class="star" onclick="setStar(2)">★</span>
+            <span class="star" onclick="setStar(3)">★</span>
+            <span class="star" onclick="setStar(4)">★</span>
+            <span class="star" onclick="setStar(5)">★</span>
+          </div>
+          <input type="hidden" name="rating" id="rh">
+        </div>
+      </div>
+
+      <!-- ISSUE -->
+      <div id="iss-sec" style="display:none">
+        <div class="tf">
+          <label>Issue Type</label>
+          <select><option>Charger not working</option><option>Booking or payment problem</option><option>App / website error</option><option>Safety concern</option><option>Other</option></select>
+        </div>
+        <div class="tf"><label>Booking Reference (if any)</label><input type="text" placeholder="e.g. VG-47291"></div>
+        <div class="tf">
+          <label>Screenshot (Optional)</label>
+          <div class="upload" onclick="document.getElementById('fu').click()">
+            <div class="upload-icon">↑</div>
+            Click to attach a file or screenshot
+          </div>
+          <input type="file" id="fu" style="display:none" accept="image/*,.pdf">
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div id="con-sec" style="display:none">
+        <div class="tf">
+          <label>Subject</label>
+          <select><option>General Enquiry</option><option>Partnership</option><option>Press / Media</option><option>Investment</option><option>Other</option></select>
+        </div>
+        <div class="tf"><label>Phone Number (Optional)</label><input type="tel" placeholder="+91 98765 43210"></div>
+      </div>
+
+      <div class="tf"><label>Message</label><textarea name="message" placeholder="Tell us what's going on..." required></textarea></div>
+      <button type="submit" class="btn-send">Send Message</button>
+    </form>
+  </div>
+
+  <aside class="contact-panel">
+    <div class="cp-title">Get in Touch</div>
+    <div class="ci"><div class="ci-icon">📞</div><div><div class="ci-lbl">Helpline</div><div class="ci-val"><a href="tel:+918001234567">+91 800 123 4567</a></div></div></div>
+    <div class="ci"><div class="ci-icon">✉</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:support@voltgrid.in">support@voltgrid.in</a></div></div></div>
+    <div class="ci"><div class="ci-icon">💬</div><div><div class="ci-lbl">Live Chat</div><div class="ci-val">9 AM – 9 PM IST</div></div></div>
+    <div class="ci"><div class="ci-icon">📍</div><div><div class="ci-lbl">Address</div><div class="ci-val">K.J. Somaiya School of Engineering<br>Vidyavihar, Mumbai — 400077</div></div></div>
+    <div class="status-block">
+      <div class="sb-title">Station Status</div>
+      <div class="sb-row"><span>Malabar Hill</span><span class="dr">● Offline</span></div>
+      <div class="sb-row"><span>Vidyavihar</span><span class="dy">● In Use</span></div>
+      <div class="sb-row"><span>Chembur</span><span class="dg">● Live</span></div>
+    </div>
+  </aside>
+</div>
+
+<!-- FAQ -->
+<div class="faq-wrap">
+  <div class="faq-title">Frequently Asked Questions</div>
+  <div class="faq-grid">
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">How do I cancel a booking?<span class="faq-tog">+</span></div>
+      <div class="faq-a">Cancel via My Bookings up to 30 minutes before your slot — no charge. After that, a 50% fee applies. Refunds take 3–5 business days to process.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">When will Malabar Hill be back online?<span class="faq-tog">+</span></div>
+      <div class="faq-a">VG-01 Malabar Hill is currently under scheduled maintenance. We expect it back online within 48 hours. Use the Get Notified option on the station page to be alerted.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Which connectors are supported at each station?<span class="faq-tog">+</span></div>
+      <div class="faq-a">Malabar Hill: Type 2 AC (11 kW). Vidyavihar: CCS2 DC (60 kW). Chembur: CCS2 DC Fast (150 kW). All support standard Indian EV models including Tata Nexon EV, MG ZS EV, and Ather.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">How is pricing calculated?<span class="faq-tog">+</span></div>
+      <div class="faq-a">You pay per kWh consumed, plus a flat ₹5 platform fee and 18% GST. Rates are ₹10/kWh (Malabar Hill), ₹15/kWh (Vidyavihar), and ₹18/kWh (Chembur). The booking page shows an estimate upfront.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Can I extend my charging session?<span class="faq-tog">+</span></div>
+      <div class="faq-a">Extensions are available if the next slot is unbooked. Request at the station kiosk. Extensions are billed at the normal per-kWh rate. Please be considerate of other users waiting.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Who made this website?<span class="faq-tog">+</span></div>
+      <div class="faq-a">VoltGrid was built as a WPL Mini Project by Parth Sharma (16010124138) and Ryshaan Shah (16010124134) at K.J. Somaiya School of Engineering, Mumbai — SY B.Tech 2025–26.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-bottom">
+    <p>VoltGrid © 2025–26 · K.J. Somaiya School of Engineering · WPL Mini Project</p>
+    <p>Parth Sharma — 16010124138 &nbsp;|&nbsp; Ryshaan Shah — 16010124134</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Message sent — we'll get back to you soon.</div>
+
+<script>
+let sv=0;
+function setStar(n){
+  sv=n;
+  document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));
+  document.getElementById('rh').value=n;
+}
+function sw(t){
+  const map={feedback:['tn1','fb-sec'],issue:['tn2','iss-sec'],contact:['tn3','con-sec']};
+  ['feedback','issue','contact'].forEach((k,i)=>{
+    document.getElementById('tn'+(i+1)).classList.toggle('active',k===t);
+    document.getElementById(map[k][1]).style.display=k===t?'block':'none';
+  });
+}
+function setType(t,el){
+  document.querySelectorAll('.tt').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');sw(t);
+}
+function send(e){
+  e.preventDefault();
+  const t=document.getElementById('toast');
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',4000);
+  e.target.reset();sv=0;
+  document.querySelectorAll('.star').forEach(s=>s.classList.remove('on'));
+}
+</script>
+</body>
+</html>

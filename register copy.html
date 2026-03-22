@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account — VoltGrid</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#fff;color:#171a20;min-height:100vh}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:4px;text-decoration:none;color:#171a20;text-transform:uppercase}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:#171a20;text-decoration:none;font-size:13px;padding:7px 13px;border-radius:4px;transition:background .2s}
+.nav-links a:hover{background:rgba(0,0,0,.06)}
+
+.layout{min-height:100vh;padding-top:52px;display:grid;grid-template-columns:1fr 1.15fr}
+
+/* LEFT */
+.left{background:#171a20;color:#fff;padding:72px 64px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.left::before{content:'⚡';position:absolute;font-size:340px;bottom:-60px;right:-40px;opacity:.04;pointer-events:none}
+.lc{position:relative;z-index:1}
+.l-over{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;display:block}
+.l-title{font-size:46px;font-weight:600;letter-spacing:-.5px;line-height:1.08;margin-bottom:20px}
+.l-desc{font-size:15px;color:rgba(255,255,255,.45);line-height:1.75;max-width:340px;margin-bottom:44px}
+.steps{display:flex;flex-direction:column;gap:22px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.sn{width:30px;height:30px;border:1px solid rgba(255,255,255,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.5);flex-shrink:0}
+.st h4{font-size:14px;font-weight:600;margin-bottom:3px}
+.st p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* RIGHT */
+.right{padding:64px 68px;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+.f-title{font-size:28px;font-weight:600;letter-spacing:-.3px;margin-bottom:4px}
+.f-sub{font-size:14px;color:rgba(0,0,0,.4);margin-bottom:40px}
+.f-sub a{color:#171a20;text-decoration:underline}
+
+.grp-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,.28);margin:28px 0 16px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.07)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+.full{grid-column:1/-1}
+
+/* Tesla underline inputs */
+.tf{display:flex;flex-direction:column;margin-bottom:22px;border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:8px;transition:border-color .2s}
+.tf:focus-within{border-bottom-color:#171a20}
+.tf label{font-size:10px;font-weight:600;letter-spacing:.8px;color:rgba(0,0,0,.36);margin-bottom:5px;text-transform:uppercase}
+.tf input,.tf select{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;cursor:pointer}
+.tf input::placeholder{color:rgba(0,0,0,.22)}
+.tf select option{background:#fff}
+
+/* Password strength */
+.pwd-bars{display:flex;gap:4px;margin-top:9px}
+.pb{height:2px;flex:1;background:rgba(0,0,0,.1);border-radius:1px;transition:background .3s}
+.pwd-lbl{font-size:11px;color:rgba(0,0,0,.35);margin-top:5px}
+
+.terms{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(0,0,0,.45);line-height:1.65;margin:20px 0 24px}
+.terms input{accent-color:#171a20;margin-top:3px;flex-shrink:0}
+.terms a{color:#171a20}
+
+.btn-submit{width:100%;background:#171a20;color:#fff;border:none;padding:15px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-submit:hover{background:#000}
+
+footer{background:#171a20;padding:18px 48px}
+.foot-bottom{font-size:12px;color:rgba(255,255,255,.22);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:32px 20px}
+  .fg{grid-template-columns:1fr}
+  nav{padding:0 16px}
+  footer{padding:16px 20px}
+  .foot-bottom{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">VoltGrid</a>
+  <div class="nav-links">
+    <a href="catalogue.html">Chargers</a>
+    <a href="booking.html">Book Slot</a>
+    <a href="feedback.html">Support</a>
+    <a href="index.html#signin">Sign In</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="lc">
+      <span class="l-over">New Account</span>
+      <div class="l-title">Charge<br>smarter.</div>
+      <p class="l-desc">Create your VoltGrid account and unlock real-time access to all 3 stations across Mumbai.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><div class="st"><h4>Create account</h4><p>Your info and vehicle details — 2 minutes</p></div></div>
+        <div class="step"><div class="sn">2</div><div class="st"><h4>Verify email</h4><p>Quick confirmation to activate your account</p></div></div>
+        <div class="step"><div class="sn">3</div><div class="st"><h4>Start charging</h4><p>Book your first slot and plug in</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="f-title">Create Account</div>
+    <div class="f-sub">Already have one? <a href="index.html#signin">Sign in</a></div>
+
+    <form action="post_registration.php" method="POST">
+      <div class="grp-label">Personal Information</div>
+      <div class="fg">
+        <div class="tf"><label>First Name</label><input type="text" name="first_name" placeholder="Arjun" required></div>
+        <div class="tf"><label>Last Name</label><input type="text" name="last_name" placeholder="Sharma" required></div>
+        <div class="tf full"><label>Email Address</label><input type="email" name="email" placeholder="arjun@example.com" required></div>
+        <div class="tf"><label>Phone Number</label><input type="tel" name="phone" placeholder="+91 98765 43210" required></div>
+        <div class="tf"><label>City</label><input type="text" name="city" placeholder="Mumbai" required></div>
+      </div>
+
+      <div class="grp-label">Vehicle Details</div>
+      <div class="fg">
+        <div class="tf full"><label>Vehicle Model</label><input type="text" name="vehicle_model" placeholder="Tata Nexon EV, MG ZS EV, Ather 450X..." required></div>
+        <div class="tf"><label>Vehicle Number</label><input type="text" name="vehicle_number" placeholder="MH 01 AB 1234" required></div>
+        <div class="tf">
+          <label>Connector Type</label>
+          <select name="connector_type" required>
+            <option value="" disabled selected>Select type</option>
+            <option>Type 2 (AC)</option>
+            <option>CCS2 (DC Fast)</option>
+            <option>CHAdeMO</option>
+            <option>GB/T</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grp-label">Security</div>
+      <div class="fg">
+        <div class="tf">
+          <label>Password</label>
+          <input type="password" name="password" id="pwd" placeholder="Create a password" required oninput="chk(this.value)">
+          <div class="pwd-bars"><div class="pb" id="b1"></div><div class="pb" id="b2"></div><div class="pb" id="b3"></div><div class="pb" id="b4"></div></div>
+          <div class="pwd-lbl" id="plbl">Password strength</div>
+        </div>
+        <div class="tf"><label>Confirm Password</label><input type="password" name="confirm_password" placeholder="Confirm password" required></div>
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" name="terms" required>
+        By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </label>
+      <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-bottom">
+    <p>VoltGrid © 2025–26 · K.J. Somaiya School of Engineering · WPL Mini Project</p>
+    <p>Parth Sharma — 16010124138 &nbsp;|&nbsp; Ryshaan Shah — 16010124134</p>
+  </div>
+</footer>
+
+<script>
+function chk(v){
+  let s=0;
+  if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
+  const c=['#EF4444','#F59E0B','#3B82F6','#10B981'],l=['Weak','Fair','Good','Strong'];
+  [1,2,3,4].forEach(i=>document.getElementById('b'+i).style.background=i<=s?c[s-1]:'rgba(0,0,0,.1)');
+  const p=document.getElementById('plbl');
+  p.textContent=s>0?l[s-1]:'Password strength';
+  p.style.color=s>0?c[s-1]:'rgba(0,0,0,.35)';
+}
+</script>
+</body>
+</html>

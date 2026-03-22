@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charging Network — VoltGrid</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#fff;color:#171a20}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:4px;text-decoration:none;color:#171a20;text-transform:uppercase}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:#171a20;text-decoration:none;font-size:13px;padding:7px 13px;border-radius:4px;transition:background .2s}
+.nav-links a:hover,.nav-links a.active{background:rgba(0,0,0,.06)}
+
+/* HEADER */
+.hdr{padding-top:52px;background:#171a20;color:#fff;text-align:center;position:relative;overflow:hidden}
+.hdr-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:320px;color:#fff;opacity:.03;pointer-events:none;user-select:none}
+.hdr-inner{position:relative;z-index:1;padding:52px 20px 44px}
+.hdr-over{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:14px}
+.hdr-title{font-size:46px;font-weight:600;letter-spacing:-.8px;margin-bottom:10px}
+.hdr-sub{font-size:15px;color:rgba(255,255,255,.42)}
+
+/* FILTER BAR */
+.filter-bar{background:#171a20;padding:0 28px 18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:sticky;top:52px;z-index:90;border-bottom:1px solid rgba(255,255,255,.07)}
+.chip{padding:7px 20px;border-radius:100px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s}
+.chip:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.chip.active{background:#fff;color:#171a20;border-color:#fff}
+.cnt-lbl{margin-left:auto;font-size:13px;color:rgba(255,255,255,.3)}
+.cnt-lbl span{color:rgba(255,255,255,.6)}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,0,0,.07);border-top:1px solid rgba(0,0,0,.07)}
+
+.card{background:#fff;display:flex;flex-direction:column;transition:background .15s}
+.card:hover{background:#f9f9f9}
+.card.dim{opacity:.55}
+
+.card-vis{height:240px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.vis-dk{background:#171a20}.vis-md{background:#1d1d1d}.vis-gr{background:#2c2c2c}
+
+.stag{position:absolute;top:14px;left:14px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:100px}
+.stag-off{background:rgba(255,255,255,.08);color:rgba(255,255,255,.42);border:1px solid rgba(255,255,255,.1)}
+.stag-use{background:rgba(245,158,11,.14);color:#F59E0B;border:1px solid rgba(245,158,11,.24)}
+.stag-live{background:rgba(16,185,129,.12);color:#10B981;border:1px solid rgba(16,185,129,.2)}
+.sid{position:absolute;top:14px;right:14px;font-size:11px;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.2)}
+
+.card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.c-name{font-size:22px;font-weight:600;letter-spacing:-.3px;margin-bottom:4px}
+.c-loc{font-size:13px;color:rgba(0,0,0,.4);margin-bottom:20px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-bottom:20px}
+.sp-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(0,0,0,.3);margin-bottom:3px}
+.sp-val{font-size:16px;font-weight:600}
+.card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:18px;border-top:1px solid rgba(0,0,0,.07);margin-top:auto}
+.c-price{font-size:14px;color:rgba(0,0,0,.42)}
+.c-price strong{font-size:20px;font-weight:700;color:#171a20}
+
+.btn-book{background:#171a20;color:#fff;border:none;padding:10px 22px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s}
+.btn-book:hover{background:#000}
+.btn-off{background:rgba(0,0,0,.06);color:rgba(0,0,0,.3);border:none;padding:10px 22px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:13px;cursor:not-allowed}
+
+footer{background:#171a20;padding:18px 48px}
+.foot-bottom{font-size:12px;color:rgba(255,255,255,.22);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+@media(max-width:900px){
+  .cards{grid-template-columns:1fr}
+  nav{padding:0 16px}
+  .filter-bar{padding:0 16px 14px}
+  .hdr-title{font-size:32px}
+  footer{padding:16px 20px}
+  .foot-bottom{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">VoltGrid</a>
+  <div class="nav-links">
+    <a href="catalogue.html" class="active">Chargers</a>
+    <a href="booking.html">Book Slot</a>
+    <a href="feedback.html">Support</a>
+    <a href="index.html#signin">Sign In</a>
+  </div>
+</nav>
+
+<div class="hdr">
+  <div class="hdr-bg">⚡</div>
+  <div class="hdr-inner">
+    <span class="hdr-over">Charging Network</span>
+    <div class="hdr-title">Our Stations</div>
+    <div class="hdr-sub">3 stations across Mumbai — real-time status.</div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <button class="chip active" onclick="filt('all',this)">All</button>
+  <button class="chip" onclick="filt('live',this)">Live</button>
+  <button class="chip" onclick="filt('inuse',this)">In Use</button>
+  <button class="chip" onclick="filt('offline',this)">Offline</button>
+  <div class="cnt-lbl"><span id="cnt">3</span> stations</div>
+</div>
+
+<div class="cards" id="cards">
+
+  <!-- VG-01 MALABAR HILL — OFFLINE -->
+  <div class="card dim" data-s="offline">
+    <div class="card-vis vis-gr">
+      <svg width="86" height="126" viewBox="0 0 86 126" fill="none" opacity=".42">
+        <rect x="8" y="6" width="70" height="98" rx="10" stroke="white" stroke-width="1.1"/>
+        <path d="M38 18L38 52L28 52L43 74L43 40L53 40L38 18Z" fill="white"/>
+        <line x1="43" y1="104" x2="43" y2="120" stroke="white" stroke-width="2"/>
+        <rect x="31" y="118" width="24" height="6" rx="3" fill="white" fill-opacity=".45"/>
+      </svg>
+      <div class="stag stag-off">● Offline</div>
+      <div class="sid">VG-01</div>
+    </div>
+    <div class="card-body">
+      <div class="c-name">Malabar Hill</div>
+      <div class="c-loc">Malabar Hill, South Mumbai</div>
+      <div class="specs">
+        <div><div class="sp-lbl">Power</div><div class="sp-val">11 kW</div></div>
+        <div><div class="sp-lbl">Connector</div><div class="sp-val">Type 2</div></div>
+        <div><div class="sp-lbl">Slots</div><div class="sp-val">— / 2</div></div>
+        <div><div class="sp-lbl">Status</div><div class="sp-val" style="color:#6b7280;font-size:14px">Maintenance</div></div>
+      </div>
+      <div class="card-foot">
+        <div class="c-price"><strong>₹10</strong> /kWh</div>
+        <button class="btn-off" disabled>Unavailable</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VG-02 VIDYAVIHAR — IN USE -->
+  <div class="card" data-s="inuse">
+    <div class="card-vis vis-md">
+      <svg width="86" height="126" viewBox="0 0 86 126" fill="none">
+        <rect x="8" y="6" width="70" height="98" rx="10" stroke="white" stroke-width="1.1"/>
+        <path d="M38 18L38 52L28 52L43 74L43 40L53 40L38 18Z" fill="white" fill-opacity=".6"/>
+        <rect x="16" y="82" width="54" height="7" rx="3.5" fill="white" fill-opacity=".12"/>
+        <rect x="16" y="82" width="32" height="7" rx="3.5" fill="white" fill-opacity=".5"/>
+        <line x1="43" y1="104" x2="43" y2="120" stroke="white" stroke-width="2"/>
+        <rect x="31" y="118" width="24" height="6" rx="3" fill="white" fill-opacity=".38"/>
+      </svg>
+      <div class="stag stag-use">⏳ In Use</div>
+      <div class="sid">VG-02</div>
+    </div>
+    <div class="card-body">
+      <div class="c-name">Vidyavihar</div>
+      <div class="c-loc">Vidyavihar East, Central Mumbai</div>
+      <div class="specs">
+        <div><div class="sp-lbl">Power</div><div class="sp-val">60 kW</div></div>
+        <div><div class="sp-lbl">Connector</div><div class="sp-val">CCS2</div></div>
+        <div><div class="sp-lbl">Free Slots</div><div class="sp-val">0 / 4</div></div>
+        <div><div class="sp-lbl">Wait</div><div class="sp-val">~18 min</div></div>
+      </div>
+      <div class="card-foot">
+        <div class="c-price"><strong>₹15</strong> /kWh</div>
+        <a href="booking.html" class="btn-book">Join Queue</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VG-03 CHEMBUR — LIVE -->
+  <div class="card" data-s="live">
+    <div class="card-vis vis-dk">
+      <svg width="86" height="126" viewBox="0 0 86 126" fill="none">
+        <rect x="8" y="6" width="70" height="98" rx="10" stroke="white" stroke-width="1.1"/>
+        <path d="M38 18L38 52L28 52L43 74L43 40L53 40L38 18Z" fill="white"/>
+        <rect x="16" y="82" width="54" height="7" rx="3.5" fill="white" fill-opacity=".32"/>
+        <line x1="43" y1="104" x2="43" y2="120" stroke="white" stroke-width="2"/>
+        <rect x="31" y="118" width="24" height="6" rx="3" fill="white" fill-opacity=".45"/>
+      </svg>
+      <div class="stag stag-live">● Live</div>
+      <div class="sid">VG-03</div>
+    </div>
+    <div class="card-body">
+      <div class="c-name">Chembur</div>
+      <div class="c-loc">Chembur, Eastern Mumbai</div>
+      <div class="specs">
+        <div><div class="sp-lbl">Power</div><div class="sp-val">150 kW</div></div>
+        <div><div class="sp-lbl">Connector</div><div class="sp-val">CCS2</div></div>
+        <div><div class="sp-lbl">Free Slots</div><div class="sp-val">4 / 6</div></div>
+        <div><div class="sp-lbl">Wait</div><div class="sp-val">0 min</div></div>
+      </div>
+      <div class="card-foot">
+        <div class="c-price"><strong>₹18</strong> /kWh</div>
+        <a href="booking.html" class="btn-book">Book Now</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-bottom">
+    <p>VoltGrid © 2025–26 · K.J. Somaiya School of Engineering · WPL Mini Project</p>
+    <p>Parth Sharma — 16010124138 &nbsp;|&nbsp; Ryshaan Shah — 16010124134</p>
+  </div>
+</footer>
+
+<script>
+function filt(v,el){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  let n=0;
+  document.querySelectorAll('.card').forEach(c=>{
+    const show=v==='all'||c.dataset.s===v;
+    c.style.display=show?'flex':'none';
+    if(show)n++;
+  });
+  document.getElementById('cnt').textContent=n;
+}
+</script>
+</body>
+</html>
