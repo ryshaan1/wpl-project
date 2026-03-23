@@ -1,34 +1,20 @@
 <?php
-include 'db.php';
+include "database.php";
 
-function clean($data){
-    return htmlspecialchars(trim($data));
-}
+$first = $_POST['first_name'];
+$last = $_POST['last_name'];
+$email = $_POST['email'];
+$phone = $_POST['phone'];
+$city = $_POST['city'];
+$model = $_POST['vehicle_model'];
+$number = $_POST['vehicle_number'];
+$type = $_POST['connector_type'];
+$password = $_POST['password'];
 
-$name = clean($_POST['name']);
-$email = clean($_POST['email']);
-$vehicle = clean($_POST['vehicle']);
-$type = clean($_POST['type']);
-$slot = clean($_POST['slot']);
+$sql = "INSERT INTO users 
+VALUES ('', '$first', '$last', '$email', '$phone', '$city', '$model', '$number', '$type', '$password')";
 
-if(empty($name) || empty($email) || empty($vehicle)){
-    die("All fields are required!");
-}
+mysqli_query($conn, $sql);
 
-if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-    die("Invalid Email Format!");
-}
-
-// Insert into database
-$sql = "INSERT INTO bookings (name, email, vehicle_no, vehicle_type, slot)
-        VALUES ('$name', '$email', '$vehicle', '$type', '$slot')";
-
-if($conn->query($sql) === TRUE){
-    echo "<h2>Booking Successful ✅</h2>";
-    echo "<p>Charger slot reserved!</p>";
-} else {
-    echo "Error: " . $conn->error;
-}
-
-$conn->close();
+echo "Registration Done!";
 ?>
