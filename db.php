@@ -1,7 +1,7 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "voltgrid");
+$conn = new mysqli("localhost", "root", "", "voltgrid");
 
-if (!$conn) {
-    echo "Database connection failed";
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>

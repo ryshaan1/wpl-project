@@ -51,7 +51,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;ali
 .tf{display:flex;flex-direction:column;margin-bottom:22px;border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:8px;transition:border-color .2s}
 .tf:focus-within{border-bottom-color:#171a20}
 .tf label{font-size:10px;font-weight:600;letter-spacing:.8px;color:rgba(0,0,0,.36);margin-bottom:5px;text-transform:uppercase}
-.tf input,.tf select,.tf textarea{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;cursor:pointer}
+.tf input,.tf select,.tf textarea{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;appearance:none;cursor:pointer}
 .tf input::placeholder,.tf textarea::placeholder{color:rgba(0,0,0,.22)}
 .tf textarea{resize:none;min-height:80px}
 .tf select option{background:#fff}
@@ -166,10 +166,10 @@ footer{background:#171a20;padding:18px 48px}
       <div class="tn" id="tn3" onclick="sw('contact')">Contact</div>
     </div>
 
-    <form action="request_registration.php" method="POST" onsubmit="send(event)">
+    <form action="save_feedback.php" method="POST" onsubmit="send(event)">
       <div class="fg2">
-        <div class="tf"><label>Full Name</label><input type="text" placeholder="Your name" required></div>
-        <div class="tf"><label>Email Address</label><input type="email" placeholder="you@example.com" required></div>
+        <div class="tf"><label>Full Name</label><input type="text" name="name" placeholder="Your name" required></div>
+        <div class="tf"><label>Email Address</label><input type="email" name="email" placeholder="you@example.com" required></div>
       </div>
 
       <!-- FEEDBACK -->
@@ -297,6 +297,12 @@ function setType(t,el){
 }
 function send(e){
   e.preventDefault();
+  const fd=new FormData(e.target);
+  fd.append('type', document.querySelector('.tt.active') ? document.querySelector('.tt.active').textContent : 'Feedback');
+  fetch('save_feedback.php',{method:'POST',body:fd})
+    .then(r=>r.json())
+    .then(()=>{})
+    .catch(()=>{});
   const t=document.getElementById('toast');
   t.style.display='block';
   setTimeout(()=>t.style.display='none',4000);
