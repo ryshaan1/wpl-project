@@ -1,0 +1,30 @@
+<?php
+include 'db.php';
+include 'session.php';
+
+start_session();
+
+// Clear remember-me cookie and DB token if user is logged in
+if (!empty($_SESSION['user_id'])) {
+    clear_remember_cookie($conn, $_SESSION['user_id']);
+}
+
+// Destroy all session data
+$_SESSION = [];
+if (ini_get("session.use_cookies")) {
+    $p = session_get_cookie_params();
+    setcookie(session_name(), '', [
+        'expires'  => time() - 42000,
+        'path'     => $p['path'],
+        'domain'   => $p['domain'],
+        'secure'   => $p['secure'],
+        'httponly' => $p['httponly'],
+        'samesite' => 'Lax',
+    ]);
+}
+session_destroy();
+$conn->close();
+
+header("Location: index.html");
+exit();
+?>
