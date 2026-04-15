@@ -1,9 +1,15 @@
 <?php
-include 'db.php';
+include "database.php";
 
-function clean($data){
-    return htmlspecialchars(trim($data));
-}
+$first = $_POST['first_name'];
+$last = $_POST['last_name'];
+$email = $_POST['email'];
+$phone = $_POST['phone'];
+$city = $_POST['city'];
+$model = $_POST['vehicle_model'];
+$number = $_POST['vehicle_number'];
+$type = $_POST['connector_type'];
+$password = $_POST['password'];
 
 $first_name     = isset($_POST['first_name'])     ? clean($_POST['first_name'])     : "";
 $last_name      = isset($_POST['last_name'])      ? clean($_POST['last_name'])      : "";
