@@ -44,7 +44,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;ali
 .tf{display:flex;flex-direction:column;margin-bottom:22px;border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:8px;transition:border-color .2s}
 .tf:focus-within{border-bottom-color:#171a20}
 .tf label{font-size:10px;font-weight:600;letter-spacing:.8px;color:rgba(0,0,0,.36);margin-bottom:5px;text-transform:uppercase}
-.tf input,.tf select{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;cursor:pointer}
+.tf input,.tf select{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0;-webkit-appearance:none;appearance:none;cursor:pointer}
 .tf input::placeholder{color:rgba(0,0,0,.22)}
 .tf select option{background:#fff}
 
@@ -106,48 +106,85 @@ footer{background:#171a20;padding:18px 48px}
     <div class="f-sub">Already have one? <a href="index.html#signin">Sign in</a></div>
 
     <form action="post_registration.php" method="POST">
-      <div class="grp-label">Personal Information</div>
-      <div class="fg">
-        <div class="tf"><label>First Name</label><input type="text" name="first_name" placeholder="Arjun" required></div>
-        <div class="tf"><label>Last Name</label><input type="text" name="last_name" placeholder="Sharma" required></div>
-        <div class="tf full"><label>Email Address</label><input type="email" name="email" placeholder="arjun@example.com" required></div>
-        <div class="tf"><label>Phone Number</label><input type="tel" name="phone" placeholder="+91 98765 43210" required></div>
-        <div class="tf"><label>City</label><input type="text" name="city" placeholder="Mumbai" required></div>
-      </div>
 
-      <div class="grp-label">Vehicle Details</div>
-      <div class="fg">
-        <div class="tf full"><label>Vehicle Model</label><input type="text" name="vehicle_model" placeholder="Tata Nexon EV, MG ZS EV, Ather 450X..." required></div>
-        <div class="tf"><label>Vehicle Number</label><input type="text" name="vehicle_number" placeholder="MH 01 AB 1234" required></div>
-        <div class="tf">
-          <label>Connector Type</label>
-          <select name="connector_type" required>
-            <option value="" disabled selected>Select type</option>
-            <option>Type 2 (AC)</option>
-            <option>CCS2 (DC Fast)</option>
-            <option>CHAdeMO</option>
-            <option>GB/T</option>
-          </select>
-        </div>
-      </div>
+  <div class="grp-label">Personal Information</div>
+  <div class="fg">
+    <div class="tf">
+      <label>First Name</label>
+      <input type="text" name="first_name" placeholder="Arjun" required>
+    </div>
 
-      <div class="grp-label">Security</div>
-      <div class="fg">
-        <div class="tf">
-          <label>Password</label>
-          <input type="password" name="password" id="pwd" placeholder="Create a password" required oninput="chk(this.value)">
-          <div class="pwd-bars"><div class="pb" id="b1"></div><div class="pb" id="b2"></div><div class="pb" id="b3"></div><div class="pb" id="b4"></div></div>
-          <div class="pwd-lbl" id="plbl">Password strength</div>
-        </div>
-        <div class="tf"><label>Confirm Password</label><input type="password" name="confirm_password" placeholder="Confirm password" required></div>
-      </div>
+    <div class="tf">
+      <label>Last Name</label>
+      <input type="text" name="last_name" placeholder="Sharma" required>
+    </div>
 
-      <label class="terms">
-        <input type="checkbox" name="terms" required>
-        By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-      </label>
-      <button type="submit" class="btn-submit">Create Account</button>
-    </form>
+    <div class="tf full">
+      <label>Email Address</label>
+      <input type="email" name="email" placeholder="arjun@example.com" required>
+    </div>
+
+    <div class="tf">
+      <label>Phone Number</label>
+      <input type="tel" name="phone" placeholder="+91 98765 43210" required>
+    </div>
+
+    <div class="tf">
+      <label>City</label>
+      <input type="text" name="city" placeholder="Mumbai" required>
+    </div>
+  </div>
+
+  <div class="grp-label">Vehicle Details</div>
+  <div class="fg">
+    <div class="tf full">
+      <label>Vehicle Model</label>
+      <input type="text" id="vehicle_model" name="vehicle_model" placeholder="Tata Nexon EV..." required>
+    </div>
+
+    <div class="tf">
+      <label>Vehicle Number</label>
+      <input type="text" id="vehicle_number" name="vehicle_number" placeholder="MH 01 AB 1234" required>
+    </div>
+
+    <div class="tf">
+      <label>Connector Type</label>
+      <select id="connector_type" name="connector_type" required>
+        <option value="" disabled selected>Select type</option>
+        <option>Type 2 (AC)</option>
+        <option>CCS2 (DC Fast)</option>
+        <option>CHAdeMO</option>
+        <option>GB/T</option>
+      </select>
+    </div>
+  </div>
+<div class="grp-label">Security</div>
+  <div class="fg">
+    <div class="tf">
+      <label>Password</label>
+      <input type="password" name="password" id="pwd" placeholder="Create a password" required oninput="chk(this.value)">
+      <div class="pwd-bars">
+        <div class="pb" id="b1"></div>
+        <div class="pb" id="b2"></div>
+        <div class="pb" id="b3"></div>
+        <div class="pb" id="b4"></div>
+      </div>
+      <div class="pwd-lbl" id="plbl">Password strength</div>
+    </div>
+
+    <div class="tf">
+      <label>Confirm Password</label>
+      <input type="password" name="confirm_password" required>
+    </div>
+  </div>
+
+  <label class="terms">
+    <input type="checkbox" name="terms" required>
+    By creating an account, you agree to our Terms and Privacy Policy.
+  </label>
+
+  <button type="submit" class="btn-submit">Create Account</button>
+</form>
   </div>
 </div>
 
@@ -168,6 +205,23 @@ function chk(v){
   p.textContent=s>0?l[s-1]:'Password strength';
   p.style.color=s>0?c[s-1]:'rgba(0,0,0,.35)';
 }
+
+// Add name attributes to vehicle fields before submit so PHP receives them
+document.querySelector('form').addEventListener('submit', function(e){
+  const model  = document.getElementById('vehicle_model').value.trim();
+  const number = document.getElementById('vehicle_number').value.trim();
+  const type   = document.getElementById('connector_type').value;
+
+  if(!model || !number || !type){
+    e.preventDefault();
+    alert('Please fill in all vehicle details.');
+    return;
+  }
+
+  document.getElementById('vehicle_model').setAttribute('name','vehicle_model');
+  document.getElementById('vehicle_number').setAttribute('name','vehicle_number');
+  document.getElementById('connector_type').setAttribute('name','connector_type');
+});
 </script>
 </body>
 </html>
