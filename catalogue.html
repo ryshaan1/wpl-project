@@ -23,6 +23,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;ali
 .hdr-title{font-size:46px;font-weight:600;letter-spacing:-.8px;margin-bottom:10px}
 .hdr-sub{font-size:15px;color:rgba(255,255,255,.42)}
 
+/* SEARCH BAR */
+.search-bar{background:#171a20;padding:0 28px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:220px}
+.search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.35;pointer-events:none}
+.search-input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:10px 16px 10px 42px;font-family:'Outfit',sans-serif;font-size:14px;color:#fff;outline:none;transition:all .2s}
+.search-input::placeholder{color:rgba(255,255,255,.3)}
+.search-input:focus{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.12)}
+.filter-select{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;outline:none;transition:all .2s;-webkit-appearance:none;appearance:none}
+.filter-select:focus{border-color:rgba(255,255,255,.3);color:#fff}
+.filter-select option{background:#171a20;color:#fff}
+
 /* FILTER BAR */
 .filter-bar{background:#171a20;padding:0 28px 18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:sticky;top:52px;z-index:90;border-bottom:1px solid rgba(255,255,255,.07)}
 .chip{padding:7px 20px;border-radius:100px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s}
@@ -30,6 +41,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;ali
 .chip.active{background:#fff;color:#171a20;border-color:#fff}
 .cnt-lbl{margin-left:auto;font-size:13px;color:rgba(255,255,255,.3)}
 .cnt-lbl span{color:rgba(255,255,255,.6)}
+.no-results{display:none;grid-column:1/-1;background:#fff;padding:60px 20px;text-align:center}
+.no-results h3{font-size:20px;font-weight:600;margin-bottom:8px}
+.no-results p{font-size:14px;color:rgba(0,0,0,.4)}
 
 /* CARDS */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,0,0,.07);border-top:1px solid rgba(0,0,0,.07)}
@@ -81,7 +95,7 @@ footer{background:#171a20;padding:18px 48px}
     <a href="catalogue.html" class="active">Chargers</a>
     <a href="booking.html">Book Slot</a>
     <a href="feedback.html">Support</a>
-    <a href="index.html#signin">Sign In</a>
+    <a href="login.html">Sign In</a>
   </div>
 </nav>
 
@@ -92,6 +106,24 @@ footer{background:#171a20;padding:18px 48px}
     <div class="hdr-title">Our Stations</div>
     <div class="hdr-sub">3 stations across Mumbai — real-time status.</div>
   </div>
+</div>
+
+<div class="search-bar">
+  <div class="search-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" class="search-input" id="search" placeholder="Search by station name, location, or connector..." oninput="applyFilters()">
+  </div>
+  <select class="filter-select" id="connFilter" onchange="applyFilters()">
+    <option value="">All Connectors</option>
+    <option value="Type 2">Type 2 (AC)</option>
+    <option value="CCS2">CCS2 (DC)</option>
+  </select>
+  <select class="filter-select" id="powerFilter" onchange="applyFilters()">
+    <option value="">All Power</option>
+    <option value="11">11 kW</option>
+    <option value="60">60 kW</option>
+    <option value="150">150 kW</option>
+  </select>
 </div>
 
 <div class="filter-bar">
@@ -105,7 +137,7 @@ footer{background:#171a20;padding:18px 48px}
 <div class="cards" id="cards">
 
   <!-- VG-01 MALABAR HILL — OFFLINE -->
-  <div class="card dim" data-s="offline">
+  <div class="card dim" data-s="offline" data-name="malabar hill" data-loc="malabar hill south mumbai" data-conn="Type 2" data-power="11">
     <div class="card-vis vis-gr">
       <svg width="86" height="126" viewBox="0 0 86 126" fill="none" opacity=".42">
         <rect x="8" y="6" width="70" height="98" rx="10" stroke="white" stroke-width="1.1"/>
@@ -133,7 +165,7 @@ footer{background:#171a20;padding:18px 48px}
   </div>
 
   <!-- VG-02 VIDYAVIHAR — IN USE -->
-  <div class="card" data-s="inuse">
+  <div class="card" data-s="inuse" data-name="vidyavihar" data-loc="vidyavihar east central mumbai" data-conn="CCS2" data-power="60">
     <div class="card-vis vis-md">
       <svg width="86" height="126" viewBox="0 0 86 126" fill="none">
         <rect x="8" y="6" width="70" height="98" rx="10" stroke="white" stroke-width="1.1"/>
@@ -163,7 +195,7 @@ footer{background:#171a20;padding:18px 48px}
   </div>
 
   <!-- VG-03 CHEMBUR — LIVE -->
-  <div class="card" data-s="live">
+  <div class="card" data-s="live" data-name="chembur" data-loc="chembur eastern mumbai" data-conn="CCS2" data-power="150">
     <div class="card-vis vis-dk">
       <svg width="86" height="126" viewBox="0 0 86 126" fill="none">
         <rect x="8" y="6" width="70" height="98" rx="10" stroke="white" stroke-width="1.1"/>
@@ -191,6 +223,12 @@ footer{background:#171a20;padding:18px 48px}
     </div>
   </div>
 
+  <!-- No results message -->
+  <div class="no-results" id="noResults">
+    <h3>No stations found</h3>
+    <p>Try adjusting your search or filters.</p>
+  </div>
+
 </div>
 
 <footer>
@@ -201,16 +239,40 @@ footer{background:#171a20;padding:18px 48px}
 </footer>
 
 <script>
-function filt(v,el){
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+let activeStatus = 'all';
+
+function filt(v, el) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  let n=0;
-  document.querySelectorAll('.card').forEach(c=>{
-    const show=v==='all'||c.dataset.s===v;
-    c.style.display=show?'flex':'none';
-    if(show)n++;
+  activeStatus = v;
+  applyFilters();
+}
+
+function applyFilters() {
+  const query = document.getElementById('search').value.toLowerCase().trim();
+  const connF = document.getElementById('connFilter').value;
+  const powerF = document.getElementById('powerFilter').value;
+  let n = 0;
+
+  document.querySelectorAll('.card').forEach(c => {
+    const status = c.dataset.s;
+    const name = c.dataset.name || '';
+    const loc = c.dataset.loc || '';
+    const conn = c.dataset.conn || '';
+    const power = c.dataset.power || '';
+
+    const matchStatus = activeStatus === 'all' || status === activeStatus;
+    const matchSearch = !query || name.includes(query) || loc.includes(query) || conn.toLowerCase().includes(query);
+    const matchConn = !connF || conn === connF;
+    const matchPower = !powerF || power === powerF;
+
+    const show = matchStatus && matchSearch && matchConn && matchPower;
+    c.style.display = show ? 'flex' : 'none';
+    if (show) n++;
   });
-  document.getElementById('cnt').textContent=n;
+
+  document.getElementById('cnt').textContent = n;
+  document.getElementById('noResults').style.display = n === 0 ? 'block' : 'none';
 }
 </script>
 </body>

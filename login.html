@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — VoltGrid</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#fff;color:#171a20;min-height:100vh}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:4px;text-decoration:none;color:#171a20;text-transform:uppercase}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:#171a20;text-decoration:none;font-size:13px;padding:7px 13px;border-radius:4px;transition:background .2s}
+.nav-links a:hover,.nav-links a.active{background:rgba(0,0,0,.06)}
+
+.layout{min-height:100vh;padding-top:52px;display:grid;grid-template-columns:1.15fr 1fr}
+
+/* LEFT — dark panel */
+.left{background:#171a20;color:#fff;padding:72px 64px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.left::before{content:'⚡';position:absolute;font-size:340px;bottom:-60px;right:-40px;opacity:.04;pointer-events:none}
+.lc{position:relative;z-index:1}
+.l-over{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;display:block}
+.l-title{font-size:46px;font-weight:600;letter-spacing:-.5px;line-height:1.08;margin-bottom:20px}
+.l-desc{font-size:15px;color:rgba(255,255,255,.45);line-height:1.75;max-width:360px;margin-bottom:44px}
+
+/* Feature list */
+.features{display:flex;flex-direction:column;gap:22px}
+.feat{display:flex;gap:14px;align-items:flex-start}
+.feat-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.feat h4{font-size:14px;font-weight:600;margin-bottom:3px}
+.feat p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* RIGHT — form */
+.right{padding:64px 68px;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+.f-title{font-size:28px;font-weight:600;letter-spacing:-.3px;margin-bottom:4px}
+.f-sub{font-size:14px;color:rgba(0,0,0,.4);margin-bottom:40px}
+.f-sub a{color:#171a20;text-decoration:underline}
+
+/* Underline inputs */
+.tf{display:flex;flex-direction:column;margin-bottom:26px;border-bottom:1px solid rgba(0,0,0,.12);padding-bottom:8px;transition:border-color .2s}
+.tf:focus-within{border-bottom-color:#171a20}
+.tf label{font-size:10px;font-weight:600;letter-spacing:.8px;color:rgba(0,0,0,.36);margin-bottom:5px;text-transform:uppercase}
+.tf input{background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#171a20;padding:0}
+.tf input::placeholder{color:rgba(0,0,0,.22)}
+
+/* Remember me + forgot */
+.opts{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
+.remember{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(0,0,0,.5);cursor:pointer}
+.remember input{accent-color:#171a20}
+.forgot{font-size:13px;color:#171a20;text-decoration:none;font-weight:500}
+.forgot:hover{text-decoration:underline}
+
+.btn-submit{width:100%;background:#171a20;color:#fff;border:none;padding:15px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-submit:hover{background:#000}
+
+.divider{display:flex;align-items:center;gap:16px;margin:28px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.08)}
+.divider span{font-size:12px;color:rgba(0,0,0,.3);text-transform:uppercase;letter-spacing:1px}
+
+.btn-alt{width:100%;background:rgba(0,0,0,.04);color:#171a20;border:1px solid rgba(0,0,0,.1);padding:14px;border-radius:5px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center}
+.btn-alt:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.18)}
+
+footer{background:#171a20;padding:18px 48px}
+.foot-bottom{font-size:12px;color:rgba(255,255,255,.22);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:32px 20px}
+  nav{padding:0 16px}
+  footer{padding:16px 20px}
+  .foot-bottom{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">VoltGrid</a>
+  <div class="nav-links">
+    <a href="catalogue.html">Chargers</a>
+    <a href="booking.html">Book Slot</a>
+    <a href="feedback.html">Support</a>
+    <a href="login.html" class="active">Sign In</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="lc">
+      <span class="l-over">Welcome Back</span>
+      <div class="l-title">Power<br>up.</div>
+      <p class="l-desc">Sign in to manage your bookings, track charging sessions, and access all 3 stations across Mumbai.</p>
+      <div class="features">
+        <div class="feat">
+          <div class="feat-icon">⚡</div>
+          <div>
+            <h4>Real-time availability</h4>
+            <p>See live slot status across all stations</p>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">📅</div>
+          <div>
+            <h4>Booking history</h4>
+            <p>View and manage all past and upcoming sessions</p>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🔒</div>
+          <div>
+            <h4>Secure sessions</h4>
+            <p>30-day remember me with encrypted tokens</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="f-title">Sign In</div>
+    <div class="f-sub">New to VoltGrid? <a href="register.html">Create an account</a></div>
+
+    <form action="process.php" method="POST">
+      <input type="hidden" name="action" value="login">
+
+      <div class="tf">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="tf">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required>
+      </div>
+
+      <div class="opts">
+        <label class="remember">
+          <input type="checkbox" name="remember_me" value="1">
+          Remember me for 30 days
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-submit">Sign In</button>
+    </form>
+
+    <div class="divider"><span>or</span></div>
+    <a href="register.html" class="btn-alt">Create a New Account</a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-bottom">
+    <p>VoltGrid &copy; 2025&ndash;26 &middot; K.J. Somaiya School of Engineering &middot; WPL Mini Project</p>
+    <p>Parth Sharma &mdash; 16010124138 &nbsp;|&nbsp; Ryshaan Shah &mdash; 16010124134</p>
+  </div>
+</footer>
+</body>
+</html>
