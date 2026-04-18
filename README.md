@@ -25,8 +25,6 @@ A web-based EV charger allocation system that provides real-time station status,
 - **User Dashboard** — View recent bookings, session info, and account details
 - **Feedback System** — 3-tab support form (Feedback with star rating, Report Issue with file upload, General Contact) + FAQ accordion
 - **Guest Bookings** — Users can book without creating an account
-- **Responsive Design** — All pages adapt to mobile, tablet, and desktop
-
 ---
 
 ## Tech Stack
