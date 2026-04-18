@@ -27,7 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             ?><!DOCTYPE html><html><head><title>VoltGrid</title>
             <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
             <style>body{font-family:'Outfit',sans-serif;background:#f4f4f4;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}.card{background:#fff;padding:36px 44px;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,.08);text-align:center;max-width:380px;width:100%}h3{color:#EF4444;margin-bottom:16px}a{color:#171a20;font-weight:600}</style>
-            </head><body><div class="card"><h3>Email and password are required.</h3><a href="index.html#signin">&#8592; Go back</a></div></body></html><?php
+            </head><body><div class="card"><h3>Email and password are required.</h3><a href="login.html">&#8592; Go back</a></div></body></html><?php
             exit();
         }
 
@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             ?><!DOCTYPE html><html><head><title>VoltGrid</title>
             <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
             <style>body{font-family:'Outfit',sans-serif;background:#f4f4f4;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}.card{background:#fff;padding:36px 44px;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,.08);text-align:center;max-width:380px;width:100%}h3{color:#EF4444;margin-bottom:16px}a{color:#171a20;font-weight:600}</style>
-            </head><body><div class="card"><h3>Invalid email format.</h3><a href="index.html#signin">&#8592; Go back</a></div></body></html><?php
+            </head><body><div class="card"><h3>Invalid email format.</h3><a href="login.html">&#8592; Go back</a></div></body></html><?php
             exit();
         }
 
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             ?><!DOCTYPE html><html><head><title>VoltGrid</title>
             <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
             <style>body{font-family:'Outfit',sans-serif;background:#f4f4f4;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}.card{background:#fff;padding:36px 44px;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,.08);text-align:center;max-width:380px;width:100%}h3{color:#EF4444;margin-bottom:16px}a{color:#171a20;font-weight:600;display:inline-block;margin:6px 8px}
-            </style></head><body><div class="card"><h3>No account found with that email.</h3><a href="index.html#signin">&#8592; Sign In</a><a href="register.html">Create Account</a></div></body></html><?php
+            </style></head><body><div class="card"><h3>No account found with that email.</h3><a href="login.html">&#8592; Sign In</a><a href="register.html">Create Account</a></div></body></html><?php
             exit();
         }
 
@@ -62,7 +62,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             ?><!DOCTYPE html><html><head><title>VoltGrid</title>
             <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
             <style>body{font-family:'Outfit',sans-serif;background:#f4f4f4;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}.card{background:#fff;padding:36px 44px;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,.08);text-align:center;max-width:380px;width:100%}h3{color:#EF4444;margin-bottom:16px}a{color:#171a20;font-weight:600}</style>
-            </head><body><div class="card"><h3>Incorrect password. Please try again.</h3><a href="index.html#signin">&#8592; Go back</a></div></body></html><?php
+            </head><body><div class="card"><h3>Incorrect password. Please try again.</h3><a href="login.html">&#8592; Go back</a></div></body></html><?php
             exit();
         }
 

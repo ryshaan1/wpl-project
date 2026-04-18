@@ -95,7 +95,7 @@ function is_logged_in($conn = null) {
 /**
  * Require the user to be logged in; redirect to sign-in if not.
  */
-function require_login($conn, $redirect = 'index.html#signin') {
+function require_login($conn, $redirect = 'login.html') {
     if (!is_logged_in($conn)) {
         header("Location: $redirect");
         exit();

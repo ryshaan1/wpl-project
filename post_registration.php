@@ -1,15 +1,9 @@
 <?php
-include "database.php";
+include 'db.php';
 
-$first = $_POST['first_name'];
-$last = $_POST['last_name'];
-$email = $_POST['email'];
-$phone = $_POST['phone'];
-$city = $_POST['city'];
-$model = $_POST['vehicle_model'];
-$number = $_POST['vehicle_number'];
-$type = $_POST['connector_type'];
-$password = $_POST['password'];
+function clean($data){
+    return htmlspecialchars(trim($data));
+}
 
 $first_name     = isset($_POST['first_name'])     ? clean($_POST['first_name'])     : "";
 $last_name      = isset($_POST['last_name'])      ? clean($_POST['last_name'])      : "";
@@ -72,7 +66,7 @@ a{display:inline-block;padding:12px 24px;border-radius:5px;text-decoration:none;
   <h2>Account Created!</h2>
   <p>Welcome, <strong><?php echo $first_name . ' ' . $last_name; ?></strong>.<br>Your VoltGrid account is ready to use.</p>
   <div class="btns">
-    <a href="index.html#signin" class="a1">Sign In</a>
+    <a href="login.html" class="a1">Sign In</a>
     <a href="booking.html" class="a2">Book a Slot</a>
   </div>
 </div>
@@ -81,7 +75,7 @@ a{display:inline-block;padding:12px 24px;border-radius:5px;text-decoration:none;
 <?php
 } else {
     if($conn->errno === 1062){
-        echo "<h3 style='color:red;'>An account with this email already exists. <a href='index.html#signin'>Sign in instead</a>.</h3>";
+        echo "<h3 style='color:red;'>An account with this email already exists. <a href='login.html'>Sign in instead</a>.</h3>";
     } else {
         // Column mismatch fallback — retry with only base columns
         $stmt2 = $conn->prepare(
@@ -92,7 +86,7 @@ a{display:inline-block;padding:12px 24px;border-radius:5px;text-decoration:none;
         if($stmt2->execute()){
             echo "<script>window.location='post_registration.php?success=1'</script>";
             // Show success
-            echo "<h2 style='font-family:sans-serif;color:#171a20'>✓ Account created! <a href='index.html#signin'>Sign in</a></h2>";
+            echo "<h2 style='font-family:sans-serif;color:#171a20'>✓ Account created! <a href='login.html'>Sign in</a></h2>";
         } else {
             echo "<h3 style='color:red;'>Registration failed: " . htmlspecialchars($stmt2->error) . "</h3>";
         }
