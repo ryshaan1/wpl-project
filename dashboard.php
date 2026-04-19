@@ -65,7 +65,7 @@ a.btn{display:inline-block;padding:11px 22px;border-radius:5px;text-decoration:n
 </head>
 <body>
 <header>
-    <h1>⚡ VoltGrid</h1>
+    <h1><span style="filter:drop-shadow(0 0 6px #FFD700) drop-shadow(0 0 12px #FFA500);display:inline-block;">⚡</span> VoltGrid</h1>
     <nav>
         <a href="index.html">Home</a>
         <a href="booking.html">Book</a>
@@ -128,11 +128,7 @@ a.btn{display:inline-block;padding:11px 22px;border-radius:5px;text-decoration:n
                     <td><?php echo htmlspecialchars($b['date']); ?></td>
                     <td><?php echo htmlspecialchars($b['time_slot']); ?></td>
                     <td><?php echo htmlspecialchars($b['duration']); ?></td>
-<<<<<<< HEAD
-                    <td>$<?php echo number_format($b['total_amount'], 2); ?></td>
-=======
                     <td>₹<?php echo number_format($b['total_amount'], 2); ?></td>
->>>>>>> upstream/main
                     <td><?php echo date('d M Y', strtotime($b['created_at'])); ?></td>
                 </tr>
             <?php endforeach; ?>
