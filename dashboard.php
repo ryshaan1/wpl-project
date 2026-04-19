@@ -128,7 +128,11 @@ a.btn{display:inline-block;padding:11px 22px;border-radius:5px;text-decoration:n
                     <td><?php echo htmlspecialchars($b['date']); ?></td>
                     <td><?php echo htmlspecialchars($b['time_slot']); ?></td>
                     <td><?php echo htmlspecialchars($b['duration']); ?></td>
+<<<<<<< HEAD
                     <td>$<?php echo number_format($b['total_amount'], 2); ?></td>
+=======
+                    <td>₹<?php echo number_format($b['total_amount'], 2); ?></td>
+>>>>>>> upstream/main
                     <td><?php echo date('d M Y', strtotime($b['created_at'])); ?></td>
                 </tr>
             <?php endforeach; ?>

@@ -6,9 +6,11 @@
   document.getElementById('s'+cur).classList.remove('active');
   document.getElementById('t'+cur).classList.remove('active');
   if(dir===1) document.getElementById('t'+cur).classList.add('done');
+  if(dir===1) document.getElementById('t'+cur).classList.add('done');
   else document.getElementById('t'+nxt).classList.remove('done');
   document.getElementById('s'+nxt).classList.add('active');
   document.getElementById('t'+nxt).classList.add('active');
+} function conf(){
 } function conf(){
   if(!document.getElementById('ag').checked){alert('Please agree to the cancellation policy.');return;}
 
@@ -29,7 +31,39 @@
   fd.append('total_amount',   totalRaw);
 
   // Show success screen optimistically, then save in background
+
+  // Gather all booking data
+  const vrn   = document.querySelector('input[name="vrn"]').value.trim();
+  const dateV = document.getElementById('di').value;
+  const durLabel = {'30':'30 minutes','60':'1 hour','90':'1.5 hours','120':'2 hours'}[String(dur)];
+
+  // Strip currency symbol from total
+  const totalRaw = document.getElementById('sc3').textContent.replace(/[^0-9]/g,'');
+
+  const fd = new FormData();
+  fd.append('station',        st.id);
+  fd.append('date',           dateV);
+  fd.append('time_slot',      slotT || '—');
+  fd.append('duration',       durLabel);
+  fd.append('vehicle_number', vrn);
+  fd.append('total_amount',   totalRaw);
+
+  // Show success screen optimistically, then save in background
   document.getElementById('s3').classList.remove('active');
+  const refCode = 'VG-'+Math.floor(10000+Math.random()*90000);
+  document.getElementById('ref').textContent = refCode;
+  const s = document.getElementById('suc');
+  s.style.display = 'flex';
+
+  fetch('save_booking.php', { method:'POST', body: fd })
+    .then(r => r.json())
+    .then(data => {
+      if(!data.success){
+        console.error('Booking save failed:', data.error);
+      }
+    })
+    .catch(err => console.error('Network error saving booking:', err));
+} calc(); </script> </body> </html>
   const refCode = 'VG-'+Math.floor(10000+Math.random()*90000);
   document.getElementById('ref').textContent = refCode;
   const s = document.getElementById('suc');
