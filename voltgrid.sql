@@ -1,8 +1,6 @@
 -- ============================================================
 -- VoltGrid — Full Database Schema
 -- Database: voltgrid
--- Tables: stations, users, bookings, feedback,
---         report_issues, contact_us
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS voltgrid
@@ -11,34 +9,7 @@ CREATE DATABASE IF NOT EXISTS voltgrid
 
 USE voltgrid;
 
--- ── 1. STATIONS ─────────────────────────────────────────────
-CREATE TABLE IF NOT EXISTS bookings (
-    id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    user_id         INT UNSIGNED    DEFAULT NULL,
-    station_id      INT UNSIGNED    NOT NULL,
-    date            DATE            NOT NULL,
-    time_slot       VARCHAR(20)     NOT NULL,
-    duration        VARCHAR(20)     NOT NULL,
-    vehicle_number  VARCHAR(20)     DEFAULT NULL,
-    total_amount    DECIMAL(8,2)    NOT NULL DEFAULT 0,
-    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-
-    INDEX idx_bookings_user_id (user_id),
-    INDEX idx_bookings_station_id (station_id),
-
-    CONSTRAINT fk_bookings_user
-        FOREIGN KEY (user_id) REFERENCES users (id)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
-
-    CONSTRAINT fk_bookings_station
-        FOREIGN KEY (station_id) REFERENCES stations (id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
-
--- ── 2. USERS ─────────────────────────────────────────────────
+-- ── 1. USERS ──────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
     id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     first_name      VARCHAR(60)     NOT NULL,
@@ -58,11 +29,27 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX         idx_users_remember_token (remember_token)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ── 3. BOOKINGS ──────────────────────────────────────────────
+-- ── 2. STATIONS ───────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS stations (
+    id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    station_code    VARCHAR(20)     NOT NULL UNIQUE,
+    name            VARCHAR(100)    NOT NULL,
+    location        VARCHAR(255)    NOT NULL,
+    power_kw        INT             NOT NULL,
+    connector_type  VARCHAR(50)     NOT NULL,
+    total_slots     INT             NOT NULL DEFAULT 1,
+    status          ENUM('live', 'offline', 'inuse') DEFAULT 'live',
+    price_per_kwh   DECIMAL(8,2)    NOT NULL DEFAULT 0.00,
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE INDEX idx_stations_code (station_code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ── 3. BOOKINGS ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS bookings (
     id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     user_id         INT UNSIGNED    DEFAULT NULL,          -- NULL = guest booking
-    station         VARCHAR(100)    NOT NULL,
+    station         VARCHAR(100)    NOT NULL,              -- Stores station_code (e.g. VG-02)
     date            DATE            NOT NULL,
     time_slot       VARCHAR(20)     NOT NULL,
     duration        VARCHAR(20)     NOT NULL,
@@ -78,7 +65,7 @@ CREATE TABLE IF NOT EXISTS bookings (
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ── 4. FEEDBACK ──────────────────────────────────────────────
+-- ── 4. FEEDBACK ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS feedback (
     id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     name        VARCHAR(120)    DEFAULT NULL,
@@ -89,7 +76,7 @@ CREATE TABLE IF NOT EXISTS feedback (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ── 5. REPORT ISSUES ─────────────────────────────────────────
+-- ── 5. REPORT ISSUES ──────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS report_issues (
     id                  INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     name                VARCHAR(120)    DEFAULT NULL,
@@ -102,7 +89,7 @@ CREATE TABLE IF NOT EXISTS report_issues (
     INDEX idx_report_issues_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ── 6. CONTACT US ────────────────────────────────────────────
+-- ── 6. CONTACT US ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS contact_us (
     id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     name        VARCHAR(120)    DEFAULT NULL,
@@ -114,7 +101,7 @@ CREATE TABLE IF NOT EXISTS contact_us (
     INDEX idx_contact_us_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ── SEED: stations ───────────────────────────────────────────
+-- ── SEED: stations ────────────────────────────────────────────
 INSERT INTO stations (station_code, name, location, power_kw, connector_type, total_slots, status, price_per_kwh)
 VALUES
     ('VG-01', 'Malabar Hill',  'Malabar Hill, South Mumbai',    11,  'Type 2', 2, 'offline', 10.00),

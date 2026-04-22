@@ -8,10 +8,11 @@ require_login($conn);
 $bookings = [];
 $uid = $_SESSION['user_id'];
 $stmt = $conn->prepare(
-    "SELECT station, date, time_slot, duration, total_amount, created_at
-     FROM bookings
-     WHERE user_id = ?
-     ORDER BY created_at DESC
+    "SELECT b.station AS station_code, s.name AS station_name, b.date, b.time_slot, b.duration, b.total_amount, b.booking_ref, b.created_at
+     FROM bookings b
+     LEFT JOIN stations s ON b.station = s.station_code
+     WHERE b.user_id = ?
+     ORDER BY b.created_at DESC
      LIMIT 10"
 );
 if ($stmt) {
@@ -113,6 +114,7 @@ a.btn{display:inline-block;padding:11px 22px;border-radius:5px;text-decoration:n
         <table>
             <thead>
                 <tr>
+                    <th>Ref ID</th>
                     <th>Station</th>
                     <th>Date</th>
                     <th>Time Slot</th>
@@ -124,7 +126,8 @@ a.btn{display:inline-block;padding:11px 22px;border-radius:5px;text-decoration:n
             <tbody>
             <?php foreach($bookings as $b): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($b['station']); ?></td>
+                    <td style="font-family:monospace;font-weight:600;"><?php echo htmlspecialchars($b['booking_ref'] ?? '—'); ?></td>
+                    <td><?php echo htmlspecialchars($b['station_name'] ?? $b['station_code']); ?></td>
                     <td><?php echo htmlspecialchars($b['date']); ?></td>
                     <td><?php echo htmlspecialchars($b['time_slot']); ?></td>
                     <td><?php echo htmlspecialchars($b['duration']); ?></td>

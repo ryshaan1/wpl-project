@@ -1,0 +1,16 @@
+{
+    "name": "rysha/wpl-project",
+    "description": "C:\\xampp\\htdocs\\wpl-proje\u001a",
+    "autoload": {
+        "psr-4": {
+            "Rysha\\WplProject\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ryshaan Shah",
+            "email": "ryshaan.shah@somaiya.edu"
+        }
+    ],
+    "require": {}
+}

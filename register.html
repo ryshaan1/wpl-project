@@ -126,7 +126,11 @@ footer{background:#171a20;padding:18px 48px}
 
     <div class="tf">
       <label>Phone Number</label>
-      <input type="tel" name="phone" placeholder="+91 98765 43210" required>
+      <div style="display:flex; align-items:center;">
+        <span style="font-size:15px; color:rgba(0,0,0,.4); margin-right:8px; padding-bottom:2px;">+91</span>
+        <input type="tel" name="phone" placeholder="98765 43210" required maxlength="10" 
+               pattern="[0-9]{10}" title="Please enter exactly 10 digits" style="flex:1;">
+      </div>
     </div>
 
     <div class="tf">
