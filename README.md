@@ -143,9 +143,6 @@ wpl-project/
 
 ---
 
-## Experiment 9 — Manual vs AI Comparison
-
-A PHP function to calculate EV charging cost was written both manually and with AI assistance. The comparison evaluates readability, maintainability, error handling, and code standards. Full report: [`compare/COMPARISON_REPORT.md`](compare/COMPARISON_REPORT.md)
 
 ---
 
