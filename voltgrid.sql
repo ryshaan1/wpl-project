@@ -1,7 +1,8 @@
 -- ============================================================
 -- VoltGrid — Full Database Schema
 -- Database: voltgrid
--- Tables: stations, users, bookings, feedback
+-- Tables: stations, users, bookings, feedback,
+--         report_issues, contact_us
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS voltgrid
@@ -11,20 +12,31 @@ CREATE DATABASE IF NOT EXISTS voltgrid
 USE voltgrid;
 
 -- ── 1. STATIONS ─────────────────────────────────────────────
-CREATE TABLE IF NOT EXISTS stations (
+CREATE TABLE IF NOT EXISTS bookings (
     id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    station_code    VARCHAR(8)      NOT NULL UNIQUE,   -- VG-01, VG-02, VG-03
-    name            VARCHAR(100)    NOT NULL,
-    location        VARCHAR(150)    NOT NULL,
-    power_kw        SMALLINT        NOT NULL,
-    connector_type  VARCHAR(30)     NOT NULL,
-    total_slots     TINYINT         NOT NULL DEFAULT 2,
-    status          ENUM('live','inuse','offline') NOT NULL DEFAULT 'live',
-    price_per_kwh   DECIMAL(6,2)    NOT NULL,
+    user_id         INT UNSIGNED    DEFAULT NULL,
+    station_id      INT UNSIGNED    NOT NULL,
+    date            DATE            NOT NULL,
+    time_slot       VARCHAR(20)     NOT NULL,
+    duration        VARCHAR(20)     NOT NULL,
+    vehicle_number  VARCHAR(20)     DEFAULT NULL,
+    total_amount    DECIMAL(8,2)    NOT NULL DEFAULT 0,
     created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    INDEX idx_stations_status (status)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    INDEX idx_bookings_user_id (user_id),
+    INDEX idx_bookings_station_id (station_id),
+
+    CONSTRAINT fk_bookings_user
+        FOREIGN KEY (user_id) REFERENCES users (id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_bookings_station
+        FOREIGN KEY (station_id) REFERENCES stations (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ENGINE=InnoDB;
 
 -- ── 2. USERS ─────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
@@ -71,12 +83,35 @@ CREATE TABLE IF NOT EXISTS feedback (
     id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     name        VARCHAR(120)    DEFAULT NULL,
     email       VARCHAR(180)    DEFAULT NULL,
-    type        VARCHAR(40)     NOT NULL DEFAULT 'Feedback',
     message     TEXT            NOT NULL,
     rating      TINYINT         DEFAULT NULL CHECK (rating BETWEEN 1 AND 5),
     created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ── 5. REPORT ISSUES ─────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS report_issues (
+    id                  INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    name                VARCHAR(120)    DEFAULT NULL,
+    email               VARCHAR(180)    DEFAULT NULL,
+    booking_reference   VARCHAR(40)     DEFAULT NULL,   -- e.g. VG-47291
+    message             TEXT            NOT NULL,
+    attachment_path     VARCHAR(300)    DEFAULT NULL,   -- optional uploaded file
+    created_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    INDEX idx_feedback_type (type)
+    INDEX idx_report_issues_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ── 6. CONTACT US ────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS contact_us (
+    id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(120)    DEFAULT NULL,
+    email       VARCHAR(180)    DEFAULT NULL,
+    phone       VARCHAR(30)     DEFAULT NULL,
+    message     TEXT            NOT NULL,
+    created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    INDEX idx_contact_us_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ── SEED: stations ───────────────────────────────────────────
